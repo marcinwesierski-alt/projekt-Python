@@ -32,6 +32,17 @@ class Pokoj:
         self.rezerwacje.sort(key=lambda x: x["data_od"])
         return True
 
+    def zwolnij(self):
+
+        dzis = datetime.today()
+
+        for rez in self.rezerwacje:
+            if rez["data_od"] <= dzis < rez["data_do"]:
+                rez["data_do"] = dzis
+                return True
+
+        return False
+
     def aktualna_rezerwacja(self):
         dzis = datetime.today()
 
