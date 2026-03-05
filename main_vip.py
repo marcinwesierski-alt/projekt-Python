@@ -32,7 +32,7 @@ def main():
                 print("❌ Pokój o podanym numerze nie istnieje.")
                 continue
 
-            # data od
+            # data zameldowania
             try:
                 data_od_str = input("Data zameldowania (rrrr-mm-dd): ")
                 data_od = datetime.strptime(data_od_str, "%Y-%m-%d")
@@ -40,11 +40,7 @@ def main():
                 print("❌ Niepoprawny format daty.")
                 continue
 
-            if not pokoj.czy_dostepny(data_od, data_od):
-                print("❌ Pokój jest już zarezerwowany w tym terminie.")
-                continue
-
-            # data do
+            # data wymeldowania
             try:
                 data_do_str = input("Data wymeldowania (rrrr-mm-dd): ")
                 data_do = datetime.strptime(data_do_str, "%Y-%m-%d")
@@ -56,18 +52,25 @@ def main():
                 print("❌ Data wymeldowania musi być późniejsza niż zameldowania.")
                 continue
 
-            # dane gościa dopiero na końcu
+            if not pokoj.czy_dostepny(data_od, data_do):
+                print("❌ Pokój jest już zarezerwowany w tym terminie.")
+                continue
+
+            # dane gościa
             imie = input("Podaj imię: ")
             nazwisko = input("Podaj nazwisko: ")
 
             hotel.melduj(numer, imie, nazwisko, data_od, data_do)
 
         elif wybor == "3":
+
             try:
                 numer = int(input("Podaj numer pokoju do zwolnienia: "))
-                hotel.wymelduj(numer)
             except ValueError:
                 print("❌ Numer pokoju musi być liczbą.")
+                continue
+
+            hotel.wymelduj(numer)
 
         elif wybor == "4":
             print("Zamykanie systemu VIP...")
